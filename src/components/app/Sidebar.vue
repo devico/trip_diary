@@ -21,11 +21,10 @@ export default {
   data() {
     return {
       links: [
-        { title: "Счет", url: "/", exact: true },
-        { title: "История", url: "/history" },
-        { title: "Планирование", url: "/planning" },
-        { title: "Новая запись", url: "/record" },
-        { title: "Категории", url: "/categories" },
+        { title: "Trips", url: "/", exact: true },
+        { title: "Wish List", url: "/history" },
+        { title: "Planned Trips", url: "/planning" },
+        { title: "History Trips", url: "/record" },
       ],
     };
   },

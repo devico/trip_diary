@@ -5,7 +5,7 @@
         <a href="#" @click.prevent="$emit('click')">
           <i class="material-icons black-text">dehaze</i>
         </a>
-        <span class="nav-title black-text">Дневник путешествий</span>
+        <span class="nav-title black-text">Trip Diary</span>
       </div>
 
       <ul class="right hide-on-small-and-down">
