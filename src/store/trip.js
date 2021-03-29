@@ -6,7 +6,7 @@ export default {
       const config = {
         method: "GET",
         headers: {
-          Authorization: "Bearer pznGaUppzMGseR2qiP88EVEUl6l7"
+          Authorization: "Bearer o7UpbgV9F4uRV2N0iZKp7SCfbFnc"
         }
       };
 
@@ -38,7 +38,7 @@ export default {
       const config = {
         method: "GET",
         headers: {
-          Authorization: "Bearer pznGaUppzMGseR2qiP88EVEUl6l7"
+          Authorization: "Bearer o7UpbgV9F4uRV2N0iZKp7SCfbFnc"
         }
       };
 
