@@ -6,7 +6,7 @@ export default {
       const config = {
         method: "GET",
         headers: {
-          Authorization: "Bearer N9RlNFgiepcDG4VW0UVT6Sg9nnY1"
+          Authorization: "Bearer pznGaUppzMGseR2qiP88EVEUl6l7"
         }
       };
 
@@ -18,7 +18,7 @@ export default {
       ).then(response => {
         return response.json();
       });
-      
+
       return res.data.map(t => {
         return {
           id: t.id,
@@ -31,14 +31,14 @@ export default {
           priceCurrency: t.price.currencyCode,
           rating: t.rating,
           shortDescription: t.shortDescription
-        }
-      })
+        };
+      });
     },
     async fetchTripByID(ctx, id) {
       const config = {
         method: "GET",
         headers: {
-          Authorization: "Bearer N9RlNFgiepcDG4VW0UVT6Sg9nnY1"
+          Authorization: "Bearer pznGaUppzMGseR2qiP88EVEUl6l7"
         }
       };
 
@@ -50,8 +50,8 @@ export default {
       ).then(response => {
         return response.json();
       });
-      
-      return res.data
+
+      return res.data;
     }
   },
   getters: {}
