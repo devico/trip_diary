@@ -16,21 +16,25 @@
       v-for="trip in trips"
       :key="trip.id"
     >
-      <div class="card sticky-action">
+      <div class="card medium sticky-action">
         <div class="card-image">
-          <img :src="trip.pictures[0]">
-          <span class="card-title">{{trip.name}}</span>
-          <a class="btn cyan btn-floating halfway-fab pulse activator">+</a>
+          <img :src="trip.picture">
+          <span class="card-title">{{trip.name}}</span>          
         </div>
         <div class="card-content">
-          <p>{{trip.name}}</p>
+          <span class="card-title activator grey-text text-darken-4">{{trip.name}}<i class="material-icons right">more_vert</i></span>          
         </div>
         <div class="card-reveal">
           <span class="card-title">{{trip.name}}<i class="right">x</i></span>
           <p>{{trip.shortDescription}}</p>
         </div>
         <div class="card-action">
-          <a href="#">Order</a>
+          <button 
+            class="btn waves-effect waves-light" 
+            type="submit"
+            @click="showTrip(trip.id)"            
+          >Order<i class="material-icons right">send</i>
+          </button>
         </div>
       </div>
     </div>
@@ -54,7 +58,22 @@ export default {
   computed: {
     error() {
       return this.$store.getters.error
-    }    
+    },
+    trimDescription(t) {
+      console.log('DESC: ', t)
+      return t.substring(1, 40)
+    }
   },
+  methods: {
+    showTrip(id) {
+      this.$router.push(`/detail/${id}`)
+    }
+  }
 }
 </script>
+
+<style scoped>
+.card-image {
+  max-height:100%;
+}
+</style>
