@@ -9,7 +9,7 @@
             <div class="icon-block">
               <div class="card" style="margin: 0 auto;">
                 <div class="card-image">
-                  <img :src="trip.pictures[0]">
+                  <img :src="trip.picture">
                 </div>                
               </div>
               <table>
@@ -35,25 +35,25 @@
                       <p class="light"><strong>Price:</strong></p>
                     </td>
                     <td>
-                      <p class="light">{{trip.price.amount}} {{trip.price.currencyCode}}</p>
+                      <p class="light">{{trip.priceAmount}} {{trip.priceCurrency}}</p>
                     </td>                    
                   </tr>
                 </tbody>
               </table>
               <div style="margin: 16px auto;">
-                <button 
-                class="btn waves-effect waves-light"
-                type="submit"
-                @click="showTrip(trip.id)"            
-              >Booking
-              </button>
-              <button 
-                class="btn waves-effect waves-light"
-                style="margin: auto 8px;"
-                type="submit"
-                @click="showTrip(trip.id)"            
-              >Save
-              </button>
+                <form class="form" @submit.prevent="saveHandler">
+                  <button 
+                    class="btn waves-effect waves-light"
+                    type="submit"
+                  >Booking
+                  </button>
+                  <button 
+                    class="btn waves-effect waves-light"
+                    style="margin: auto 8px;"
+                    type="submit"
+                  >Save
+                  </button>
+                </form>
               </div>              
               <div >
                 <GmapMap
@@ -81,7 +81,6 @@
 
 <script>
 import { mapActions } from "vuex";
-import {gmapApi} from 'vue2-google-maps'
 export default {
   name: "detail",
   data: () => ({
@@ -93,25 +92,47 @@ export default {
     }
   }),
   methods: {
-    ...mapActions(["fetchTripByID"])
+    ...mapActions(["fetchTripByID", "saveTrip"]),
+    async saveHandler() {
+      
+      const formData = {
+        id: this.trip.id,
+        bookingLink: this.trip.bookingLink,
+        latitude: this.trip.latitude,
+        longitude: this.trip.longitude,
+        name: this.trip.name,
+        picture: this.trip.picture,
+        priceAmmount: this.trip.priceAmmount,
+        priceCurrency: this.trip.priceCurrency,
+        rating: this.trip.rating,
+        shortDescription: this.trip.shortDescription,
+        startDate: new Date().toISOString().substr(0, 10),
+        finishDate: new Date().toISOString().substr(0, 10),
+        status: 'coveted'
+      }
+
+      try {
+        await this.saveTrip(formData);
+        //await this.$store.dispatch('saveTrip', formData)
+        this.$router.push('/')
+      } catch (error) {}
+    }
   },
   async mounted() {
     this.trip = await this.fetchTripByID(this.$route.params.id);
     this.tripCoordinates = {
-      lat: +this.trip.geoCode.latitude,
-      lng: +this.trip.geoCode.longitude
+      lat: +this.trip.latitude,
+      lng: +this.trip.longitude
     }
     this.markers = [
       {
-        position: {lat: +this.trip.geoCode.latitude, lng: +this.trip.geoCode.longitude}
+        position: {lat: +this.trip.latitude, lng: +this.trip.longitude}
       }
     ]
-    console.log('TRIP: ', this.trip)
+    // console.log('TRIP: ', this.trip)
     // console.log('IMG: ', this.trip.pictures[0])
   },
-  computed: {
-    google: gmapApi
-  }
+  
 };
 </script>
 
