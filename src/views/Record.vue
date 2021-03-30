@@ -8,34 +8,7 @@
           <div class="col s8 offset-s2">
             <div class="icon-block">
               <Gmap :tripCoordinates="tripCoordinates" :markers="markers"/>              
-              <table>
-                <tbody>
-                  <tr>
-                    <td width="150px" class="py-0">
-                      <p class="light"><strong>Activity:</strong></p>
-                    </td>
-                    <td>
-                      <p class="light">{{trip.name}}</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td width="150px">
-                      <p class="light"><strong>Short Description:</strong></p>
-                    </td>
-                    <td>
-                      <p class="light">{{trip.shortDescription}}</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td width="150px">
-                      <p class="light"><strong>Price:</strong></p>
-                    </td>
-                    <td>
-                      <p class="light">{{trip.priceAmmount}} {{trip.priceCurrency}}</p>
-                    </td>                    
-                  </tr>
-                </tbody>
-              </table>
+              <InfoTable :trip="trip" />
               <div style="margin: 16px auto;">
                 <a 
                   class="waves-effect waves-light btn"
@@ -60,10 +33,11 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Gmap from "@/components/Gmap";
+import InfoTable from "@/components/InfoTable";
 export default {
   name: "record",
   components: {
-    Gmap
+    Gmap, InfoTable
   },
   data: () => ({
     trip: {},
