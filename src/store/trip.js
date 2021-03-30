@@ -1,20 +1,29 @@
 import firebase from 'firebase/app'
 
 export default {
-  state: {},
-  mutations: {},
+  state: {
+    currentTrip: {},
+    covetedTrips: []
+  },
+  mutations: {
+    setCurrentTrip(state, data) {
+      state.currentTrip = data
+    },
+    setCovetedTrips(state, data) {
+      state.covetedTrips = data
+    },
+    
+  },
   actions: {
     async fetchTrips(ctx, cityCodes) {
       const config = {
         method: "GET",
         headers: {
-          Authorization: "Bearer Fk2WEtnjgc4XBDMVJUiGwRVvCoPn"
+          Authorization: "Bearer OKvatDwAu2YpAZRW0uqAVGSdTZdZ"
         }
       };
 
-      const res = await fetch(
-        //`https://test.api.amadeus.com/v1/reference-data/recommended-locations?cityCodes=${cityCodes}&travelerCountryCode=US`,
-        // "https://test.api.amadeus.com/v1/shopping/activities/105193",
+      const res = await fetch(        
         "https://test.api.amadeus.com/v1/shopping/activities?longitude=13.41053&latitude=52.52437&radius=20",
         config
       ).then(response => {
@@ -40,15 +49,12 @@ export default {
       const config = {
         method: "GET",
         headers: {
-          Authorization: "Bearer Fk2WEtnjgc4XBDMVJUiGwRVvCoPn"
+          Authorization: "Bearer OKvatDwAu2YpAZRW0uqAVGSdTZdZ"
         }
       };
 
       const res = await fetch(
-        //`https://test.api.amadeus.com/v1/reference-data/recommended-locations?cityCodes=${cityCodes}&travelerCountryCode=US`,
-        `https://test.api.amadeus.com/v1/shopping/activities/${id}`,
-        // "https://test.api.amadeus.com/v1/shopping/activities?longitude=13.41053&latitude=52.52437&radius=20",
-        config
+        `https://test.api.amadeus.com/v1/shopping/activities/${id}`, config
       ).then(response => {
         return response.json();
       });
@@ -66,8 +72,7 @@ export default {
         shortDescription: res.data.shortDescription
       };
     },
-    async saveTrip(ctx, data) {
-      
+    async saveTrip(ctx, data) {      
       try {
         const uid = await ctx.dispatch('getUid')
         await firebase.database().ref(`/users/${uid}/trips/${data.id}`).set({
@@ -93,7 +98,8 @@ export default {
     async fetchCovetedTrips(ctx) {
       try {
         const uid = await ctx.dispatch('getUid')
-        return (await firebase.database().ref(`/users/${uid}/trips`).once('value')).val()        
+        const covetedTrips = (await firebase.database().ref(`/users/${uid}/trips`).once('value')).val()
+        ctx.commit('setCovetedTrips', covetedTrips)
       } catch (error) {
         ctx.commit('setError', error)
         throw error
@@ -102,12 +108,21 @@ export default {
     async getCovetedTripByID(ctx, id) {
       try {
         const uid = await ctx.dispatch('getUid')
-        return (await firebase.database().ref(`/users/${uid}/trips`).once('value')).val()[id]               
+        const trip = (await firebase.database().ref(`/users/${uid}/trips`).once('value')).val()[id]        
+        ctx.commit('setCurrentTrip', trip)
       } catch (error) {
         ctx.commit('setError', error)
         throw error
       }
     }
   },
-  getters: {}
+  getters: {
+    getCurrentTrip(state) {
+      return state.currentTrip
+    },
+    getCovetedTrips(state) {
+      return state.covetedTrips
+    },
+    
+  }
 };

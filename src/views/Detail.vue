@@ -12,34 +12,7 @@
                   <img :src="trip.picture">
                 </div>                
               </div>
-              <table>
-                <tbody>
-                  <tr>
-                    <td width="150px" class="py-0">
-                      <p class="light"><strong>Activity:</strong></p>
-                    </td>
-                    <td>
-                      <p class="light">{{trip.name}}</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td width="150px">
-                      <p class="light"><strong>Short Description:</strong></p>
-                    </td>
-                    <td>
-                      <p class="light">{{trip.shortDescription}}</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td width="150px">
-                      <p class="light"><strong>Price:</strong></p>
-                    </td>
-                    <td>
-                      <p class="light">{{trip.priceAmmount}} {{trip.priceCurrency}}</p>
-                    </td>                    
-                  </tr>
-                </tbody>
-              </table>
+              <InfoTable :trip="trip" />
               <div style="margin: 16px auto;">
                 <form class="form" @submit.prevent="saveHandler">
                   <button 
@@ -50,23 +23,7 @@
                   </button>
                 </form>
               </div>              
-              <div >
-                <GmapMap
-                  :center="tripCoordinates"
-                  :zoom="12"
-                  style="height:367px; margin: 8px auto;"
-                  map-type-id="terrain"
-                >
-                  <GmapMarker 
-                    :key="index"
-                    v-for="(m, index) in markers"
-                    :position="m.position"
-                    :clickable="true"
-                    :draggable="true"
-                    @click="center=m.position"
-                  />
-                </GmapMap>
-              </div>
+              <Gmap :tripCoordinates="tripCoordinates" :markers="markers"/>     
             </div>
           </div>
         </div>
@@ -76,8 +33,13 @@
 
 <script>
 import { mapActions } from "vuex";
+import Gmap from "@/components/Gmap";
+import InfoTable from "@/components/InfoTable";
 export default {
   name: "detail",
+  components: {
+    Gmap, InfoTable
+  },
   data: () => ({
     trip: {},
     markers: [],
@@ -88,8 +50,7 @@ export default {
   }),
   methods: {
     ...mapActions(["fetchTripByID", "saveTrip"]),
-    async saveHandler() {
-      
+    async saveHandler() {      
       const formData = {
         id: this.trip.id,
         bookingLink: this.trip.bookingLink,

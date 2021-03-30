@@ -32,15 +32,19 @@
 </template>
 
 <script>
+import {  mapGetters } from "vuex";
 export default {
-  props: {
-    records: {
-      type: Object,
-      required: true
-    }
+  data: () => ({
+    records: []
+  }),
+  computed: {
+    ...mapGetters([
+      "getCovetedTrips",
+    ]),
   },
-  mounted() {
-    console.log("2: ", this.records) 
+  async mounted() {
+    this.records = await this.getCovetedTrips
+    console.log('1', this.records)
   },
 }
 </script>

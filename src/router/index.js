@@ -35,13 +35,7 @@ const routes = [
     name: 'coveted-trips',
     meta: {layout: 'main', auth: true},
     component: () => import('../views/CovetedTrips.vue')
-  },
-  {
-    path: '/planning',
-    name: 'planning',
-    meta: {layout: 'main', auth: true},
-    component: () => import('../views/Planning.vue')
-  },
+  }, 
   {
     path: '/record/:id',
     name: 'record',

@@ -1,11 +1,7 @@
 <template>
   <div>
   <div class="page-title">
-    <h3>Trips</h3>
-
-    <button class="btn waves-effect waves-light btn-small">
-      <i class="material-icons">refresh</i>
-    </button>
+    <h3>Trips</h3>    
   </div>
 
   <Loader v-if="loading" />
@@ -33,7 +29,7 @@
             class="btn waves-effect waves-light" 
             type="submit"
             @click="showTrip(trip.id)"            
-          >Order<i class="material-icons right">send</i>
+          >More<i class="material-icons right">send</i>
           </button>
         </div>
       </div>

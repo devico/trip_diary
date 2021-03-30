@@ -4,16 +4,15 @@
       <h3>Coveted Trips</h3>
     </div>
     <Loader v-if="loading" />
-    
     <section v-else>
-      <CovetedTripsTable :records="records" />
+      <CovetedTripsTable />
     </section>
   </div>
 </template>
 
 <script>
 import CovetedTripsTable from "@/components/CovetedTripsTable";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "coveted-trips",
   components: {
@@ -24,11 +23,11 @@ export default {
     records: []
   }),
   async mounted() {
-    this.records = await this.fetchCovetedTrips();
+    await this.fetchCovetedTrips();
     this.loading = false;
   },
   methods: {
     ...mapActions(["fetchCovetedTrips"])
-  }
+  },  
 };
 </script>
