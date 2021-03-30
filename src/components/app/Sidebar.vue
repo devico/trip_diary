@@ -22,7 +22,7 @@ export default {
     return {
       links: [
         { title: "Trips", url: "/", exact: true },
-        { title: "Wish List", url: "/history" },
+        { title: "Coveted Trips", url: "/coveted-trips" },
         { title: "Planned Trips", url: "/planning" },
         { title: "History Trips", url: "/record" },
       ],

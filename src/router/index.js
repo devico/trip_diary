@@ -23,12 +23,7 @@ const routes = [
     meta: {layout: 'main', auth: true},
     component: () => import('../views/Home.vue')
   },
-  {
-    path: '/categories',
-    name: 'categories',
-    meta: {layout: 'main', auth: true},
-    component: () => import('../views/Categories.vue')
-  },
+  
   {
     path: '/detail/:id',
     name: 'detail',
@@ -36,10 +31,10 @@ const routes = [
     component: () => import('../views/Detail.vue')
   },
   {
-    path: '/history',
-    name: 'history',
+    path: '/coveted-trips',
+    name: 'coveted-trips',
     meta: {layout: 'main', auth: true},
-    component: () => import('../views/History.vue')
+    component: () => import('../views/CovetedTrips.vue')
   },
   {
     path: '/planning',
@@ -48,17 +43,11 @@ const routes = [
     component: () => import('../views/Planning.vue')
   },
   {
-    path: '/record',
+    path: '/record/:id',
     name: 'record',
     meta: {layout: 'main', auth: true},
     component: () => import('../views/Record.vue')
-  },
-  {
-    path: '/profile',
-    name: 'profile',
-    meta: {layout: 'main', auth: true},
-    component: () => import('../views/Profile.vue')
-  },
+  },  
 ]
 
 const router = new VueRouter({

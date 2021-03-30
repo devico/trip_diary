@@ -8,7 +8,7 @@ export default {
       const config = {
         method: "GET",
         headers: {
-          Authorization: "Bearer t6rTyZKIPWGksoa6iYV35JOg9IhU"
+          Authorization: "Bearer Fk2WEtnjgc4XBDMVJUiGwRVvCoPn"
         }
       };
 
@@ -40,7 +40,7 @@ export default {
       const config = {
         method: "GET",
         headers: {
-          Authorization: "Bearer t6rTyZKIPWGksoa6iYV35JOg9IhU"
+          Authorization: "Bearer Fk2WEtnjgc4XBDMVJUiGwRVvCoPn"
         }
       };
 
@@ -52,8 +52,6 @@ export default {
       ).then(response => {
         return response.json();
       });
-
-      console.log('1: ', res.data.pictures[0])
 
       return {
         id: res.data.id,
@@ -72,8 +70,7 @@ export default {
       
       try {
         const uid = await ctx.dispatch('getUid')
-        console.log('start', data)
-        await firebase.database().ref(`/users/${uid}/trips`).set({
+        await firebase.database().ref(`/users/${uid}/trips/${data.id}`).set({
           id: data.id,
           bookingLink: data.bookingLink,
           latitude: data.latitude,
@@ -89,9 +86,26 @@ export default {
           status: 'coveted'
         })
       } catch (e) {
-        console.log('ERR: ', e)
         ctx.commit('setError', e)
         throw e
+      }
+    },    
+    async fetchCovetedTrips(ctx) {
+      try {
+        const uid = await ctx.dispatch('getUid')
+        return (await firebase.database().ref(`/users/${uid}/trips`).once('value')).val()        
+      } catch (error) {
+        ctx.commit('setError', error)
+        throw error
+      }
+    },
+    async getCovetedTripByID(ctx, id) {
+      try {
+        const uid = await ctx.dispatch('getUid')
+        return (await firebase.database().ref(`/users/${uid}/trips`).once('value')).val()[id]               
+      } catch (error) {
+        ctx.commit('setError', error)
+        throw error
       }
     }
   },

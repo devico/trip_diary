@@ -1,5 +1,27 @@
 <template>
   <nav class="navbar orange lighten-1">
+  <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">Logo</a>
+      <ul class="right hide-on-med-and-down">
+        <li>
+          <router-link to="/" class="black-text">
+            <i class="material-icons left">search</i>Trips
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/" class="black-text">
+            <i class="material-icons left">search</i>Trips
+          </router-link>
+        </li>
+        
+        <li>
+          <a href="#" class="black-text" @click.prevent="logout">
+            {{name}}<i class="material-icons">logout</i>
+          </a>
+        </li>        
+      </ul>
+    </div>
+  <!-- <nav class="navbar orange lighten-1">
     <div class="nav-wrapper">
       <div class="navbar-left"> 
         <a href="#" @click.prevent="$emit('click')">
@@ -21,6 +43,11 @@
           </a>
 
           <ul id="dropdown" class="dropdown-content">
+            <li>
+              <router-link to="/profile" class="black-text">
+                <i class="material-icons">account_circle</i>Профиль
+              </router-link>
+            </li>
             <li class="divider" tabindex="-1"></li>
             <li>
               <a href="#" class="black-text" @click.prevent="logout">
@@ -31,15 +58,16 @@
         </li>
       </ul>
     </div>
+  </nav> -->
   </nav>
 </template>
 
 <script>
 export default {
   mounted() {
-    M.Dropdown.init(this.$refs.dropdown, {
-      constrainWidth: false
-    })
+    // M.Dropdown.init(this.$refs.dropdown, {
+    //   constrainWidth: false
+    // })
   },
   methods: {
     async logout() {

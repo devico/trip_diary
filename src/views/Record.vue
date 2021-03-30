@@ -5,45 +5,73 @@
         <h3>{{trip.name}}</h3>
       </div>
         <div class="row">
-          <div class="col s12 m6">
+          <div class="col s8 offset-s2">
             <div class="icon-block">
-              <div class="card ">
-                <div class="card-image">
-                  <img :src="trip.pictures[0]">
-                </div>                
+              <div >
+                <GmapMap
+                  :center="tripCoordinates"
+                  :zoom="12"
+                  style="height:367px; margin: 8px auto;"
+                  map-type-id="terrain"
+                >
+                  <GmapMarker 
+                    :key="index"
+                    v-for="(m, index) in markers"
+                    :position="m.position"
+                    :clickable="true"
+                    :draggable="true"
+                    @click="center=m.position"
+                  />
+                </GmapMap>
               </div>
-              <h5>Activity:</h5>
-              <p class="light">{{trip.name}}</p>
-              <h5>Short Description:</h5>
-              <p class="light">{{trip.shortDescription}}</p>
-              <h5>Price:</h5>
-              <p class="light">{{trip.price.amount}} {{trip.price.currencyCode}}</p>
-              <button 
-                class="btn waves-effect waves-light" 
-                type="submit"
-                @click="showTrip(trip.id)"            
-              >Booking
-              </button>
-            </div>
-          </div>
-
-          <div class="col s12 m6">
-            <div >
-              <GmapMap
-                :center="tripCoordinates"
-                :zoom="12"
-                style="height:367px; margin: 8px auto;"
-                map-type-id="terrain"
-              >
-                <GmapMarker 
-                  :key="index"
-                  v-for="(m, index) in markers"
-                  :position="m.position"
-                  :clickable="true"
-                  :draggable="true"
-                  @click="center=m.position"
-                />
-              </GmapMap>
+              <table>
+                <tbody>
+                  <tr>
+                    <td width="150px" class="py-0">
+                      <p class="light"><strong>Activity:</strong></p>
+                    </td>
+                    <td>
+                      <p class="light">{{trip.name}}</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td width="150px">
+                      <p class="light"><strong>Short Description:</strong></p>
+                    </td>
+                    <td>
+                      <p class="light">{{trip.shortDescription}}</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td width="150px">
+                      <p class="light"><strong>Price:</strong></p>
+                    </td>
+                    <td>
+                      <p class="light">{{trip.priceAmmount}} {{trip.priceCurrency}}</p>
+                    </td>                    
+                  </tr>
+                </tbody>
+              </table>
+              <div style="margin: 16px auto;">
+                <a 
+                  class="waves-effect waves-light btn"
+                  :href="trip.bookingLink"
+                  target="_blank"
+                >Booking
+                </a>
+                <!-- <button 
+                    class="btn waves-effect waves-light"
+                    style="margin: auto 8px;"
+                    type="submit"
+                  >Booking
+                  </button>     -->            
+              </div>
+              <div class="card" style="margin: 0 auto;">
+                <div class="card-image">
+                  <img :src="trip.picture">
+                </div>                
+              </div>           
+              
             </div>
           </div>
         </div>
@@ -53,9 +81,8 @@
 
 <script>
 import { mapActions } from "vuex";
-import {gmapApi} from 'vue2-google-maps'
 export default {
-  name: "detail",
+  name: "record",
   data: () => ({
     trip: {},
     markers: [],
@@ -65,27 +92,27 @@ export default {
     }
   }),
   methods: {
-    ...mapActions(["fetchTripByID"])
+    ...mapActions(["getCovetedTripByID"]),
+    
   },
   async mounted() {
-    this.trip = await this.fetchTripByID(this.$route.params.id);
+    this.trip = await this.getCovetedTripByID(this.$route.params.id);
     this.tripCoordinates = {
-      lat: +this.trip.geoCode.latitude,
-      lng: +this.trip.geoCode.longitude
+      lat: +this.trip.latitude,
+      lng: +this.trip.longitude
     }
     this.markers = [
       {
-        position: {lat: +this.trip.geoCode.latitude, lng: +this.trip.geoCode.longitude}
+        position: {lat: +this.trip.latitude, lng: +this.trip.longitude}
       }
     ]
-    console.log('TRIP: ', this.trip)
-    // console.log('IMG: ', this.trip.pictures[0])
   },
-  computed: {
-    google: gmapApi
-  }
+  
 };
 </script>
 
 <style scoped>
+.material-table {
+  padding: 0;
+}
 </style>

@@ -35,18 +35,13 @@
                       <p class="light"><strong>Price:</strong></p>
                     </td>
                     <td>
-                      <p class="light">{{trip.priceAmount}} {{trip.priceCurrency}}</p>
+                      <p class="light">{{trip.priceAmmount}} {{trip.priceCurrency}}</p>
                     </td>                    
                   </tr>
                 </tbody>
               </table>
               <div style="margin: 16px auto;">
                 <form class="form" @submit.prevent="saveHandler">
-                  <button 
-                    class="btn waves-effect waves-light"
-                    type="submit"
-                  >Booking
-                  </button>
                   <button 
                     class="btn waves-effect waves-light"
                     style="margin: auto 8px;"
@@ -113,7 +108,6 @@ export default {
 
       try {
         await this.saveTrip(formData);
-        //await this.$store.dispatch('saveTrip', formData)
         this.$router.push('/')
       } catch (error) {}
     }
